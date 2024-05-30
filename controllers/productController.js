@@ -9,8 +9,17 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // Display list of all Products
 exports.product_list = asyncHandler(async (req, res, next) => {
-  const allProducts = await Product.find({}, "name").sort({ name: 1 }).exec();
-  res.render("product_list", { title: "Products", product_list: allProducts });
+  const searchQuery = req.query.search || "";
+  const query = searchQuery ? { name: new RegExp(searchQuery, "i") } : {};
+
+  const allProducts = await Product.find(query, "name")
+    .sort({ name: 1 })
+    .exec();
+  res.render("product_list", {
+    title: "Products",
+    product_list: allProducts,
+    searchQuery: searchQuery,
+  });
 });
 
 // Display detail page for a specific Product

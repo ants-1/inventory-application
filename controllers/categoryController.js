@@ -5,12 +5,16 @@ const { body, validationResult } = require("express-validator");
 
 // Display list of all Categories
 exports.category_list = asyncHandler(async (req, res, next) => {
-  const allCategories = await Category.find({}, "name")
+  const searchQuery = req.query.search || "";
+  const query = searchQuery ? { name: new RegExp (searchQuery, "i") }: {};
+
+  const allCategories = await Category.find(query, "name")
     .sort({ name: 1 })
     .exec();
   res.render("category_list", {
     title: "Categories",
     category_list: allCategories,
+    searchQuery: searchQuery
   });
 });
 

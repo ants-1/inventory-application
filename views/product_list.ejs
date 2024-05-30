@@ -1,15 +1,28 @@
 <h1><%= title %></h1>
 
-<a href="/catalog/product/create">Add Product</a>
+<a href="/catalog/product/create" class="btn btn-primary">Add Product</a>
+
+<form method="GET" action="/catalog/products" class="form-inline my-2 my-lg-0">
+  <input
+    class="form-control mr-sm-2"
+    name="search"
+    type="search"
+    placeholder="Search..."
+    value="<%= searchQuery %>"
+  />
+  <button class="btn btn-primary my-2 my-sm-0" type="submit">
+    Search
+  </button>
+</form>
 
 <% if (product_list.length) { %>
-    <ul>
-        <% product_list.forEach(product => { %>
-            <li>
-                <a href="/catalog/<%= product.url %>"><%= product.name %></a>
-            </li>
-        <% }) %>
-    </ul>
+<ul>
+  <% product_list.forEach(product=> { %>
+  <li>
+    <a href="/catalog/<%= product.url %>"> <%= product.name %> </a>
+  </li>
+  <% }) %>
+</ul>
 <% } else { %>
-    <p>There are no products.</p>
+<p>There are no products.</p>
 <% } %>
