@@ -4,6 +4,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const dotenv = require('dotenv').config();
+const expressLayouts = require('express-ejs-layouts');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -25,6 +26,10 @@ async function main() {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// Use express layouts
+app.use(expressLayouts);
+app.set('layout', 'layout');
 
 app.use(logger('dev'));
 app.use(express.json());

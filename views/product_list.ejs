@@ -1,0 +1,13 @@
+<h1><%= title %></h1>
+
+<% if (product_list.length) { %>
+    <ul>
+        <% product_list.forEach(product => { %>
+            <li>
+                <a href="/catalog/<%= product.url %>"><%= product.name %></a>
+            </li>
+        <% }) %>
+    </ul>
+<% } else { %>
+    <p>There are no products.</p>
+<% } %>

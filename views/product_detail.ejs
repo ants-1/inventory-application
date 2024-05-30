@@ -1,0 +1,11 @@
+<h1><% title %></h1>
+
+<p>Name: <%= product.name %></p>
+<p>Description: <%= product.description %></p>
+<p>Categories: 
+    <% product.categories.forEach(category => { %>
+        <a href="/catalog/<%= category.url %>"><%= category.name %></a>
+    <% }) %>
+</p>
+<p>Price: <%= product.price %></p>
+<p>Quantity: <%= product.quantity %></p>
