@@ -76,7 +76,8 @@
         value="<%= (typeof product === 'undefined' ? 0 : product.quantity) %>"
       />
     </div>
-    <button class="btn btn-primary" type="submit">Add</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <a href="/catalog/<%= product.url %>" class="btn btn-primary">Back</a>
   </form>
 
   <% if (typeof errors !=='undefined' && errors.length> 0) { %>

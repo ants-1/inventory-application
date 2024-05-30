@@ -26,7 +26,8 @@
     <%= (typeof category === 'undefined' ? '' : category.description) %></textarea
       >
     </div>
-    <button class="btn btn-primary" type="submit">Add</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <a href="/catalog/categories" class="btn btn-primary">Back</a>
   </form>
 
   <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
