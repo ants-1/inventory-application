@@ -1,0 +1,89 @@
+<div class="container">
+  <h1><%= title %></h1>
+
+  <form method="POST">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        class="form-control"
+        placeholder="Name of Product"
+        required
+        value="<%= (typeof product === 'undefined' ? '' : product.name) %>"
+      />
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        class="form-control"
+        placeholder="Enter category description"
+        name="description"
+        required
+      >
+          <%= (typeof product === 'undefined' ? '' : product.description) %></textarea
+      >
+    </div>
+    <div class="form-group">
+      <label for="Categories">Category:</label>
+      <div>
+        <% categories.forEach(function(category) { %>
+        <div>
+          <% if (category.checked) { %>
+          <input
+            class="checkbox-input"
+            type="checkbox"
+            name="category"
+            id="<%= category._id %>"
+            value="<%= category._id %>"
+            checked
+          />
+          <% } else { %>
+          <input
+            class="checkbox-input"
+            type="checkbox"
+            name="category"
+            id="<%= category._id %>"
+            value="<%= category._id %>"
+          />
+          <% } %>
+          <label for="<%= category._id %>">&nbsp;<%= category.name %></label>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="price">Price:</label>
+      <input
+        type="text"
+        name="price"
+        id="price"
+        class="form-control"
+        required
+        value="<%= (typeof product === 'undefined' ? 0 : product.price) %>"
+      />
+    </div>
+    <div class="form-group">
+      <label for="quantity">Quantity:</label>
+      <input
+        type="text"
+        name="quantity"
+        id="quantity"
+        class="form-control"
+        required
+        value="<%= (typeof product === 'undefined' ? 0 : product.quantity) %>"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Add</button>
+  </form>
+
+  <% if (typeof errors !=='undefined' && errors.length> 0) { %>
+  <ul>
+    <% errors.forEach(function(error) { %>
+    <li><%= error.msg %></li>
+    <% }); %>
+  </ul>
+  <% } %>
+</div>
