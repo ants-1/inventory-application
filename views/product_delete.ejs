@@ -1,0 +1,13 @@
+<div class="container">
+    <h1><%= title %>: <%product.name %></h1>
+
+    <p>Do you really want to delete this Product?</p>
+
+    <form method="POST">
+        <div class="form-group">
+            <input type="hidden" id="productId" class="form-control" name="productId" value="<%= product._id %>">
+            <button class="btn btn-primary" type="submit">Delete</button>
+            <a href="/catalog/<%= product.url %>" class="btn btn-primary">Back</a>
+        </div>
+    </form>
+</div>
