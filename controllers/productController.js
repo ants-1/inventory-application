@@ -1,7 +1,34 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
 const asyncHandler = require("express-async-handler");
+const multer = require("multer");
+const upload = multer({ dest: "./public/data/uploads/" });
+const cloudinary = require("cloudinary").v2;
 const { body, validationResult } = require("express-validator");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
+const uploadImageCloudinary = async (imagePath) => {
+  const options = {
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
+
+  try {
+    // Upload image
+    const result = await cloudinary.uploader.upload(imagePath, options);
+    console.log(result);
+    return result.secure_url;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("index", { title: "Home" });
@@ -54,6 +81,8 @@ exports.product_create_get = asyncHandler(async (req, res, next) => {
 
 // Handle Product create on POST
 exports.product_create_post = [
+  (uploadedImg = upload.single("productImg")),
+
   // Convert the category to an array
   (req, res, next) => {
     if (!Array.isArray(req.body.category)) {
@@ -87,6 +116,15 @@ exports.product_create_post = [
     // Extract the validation errors from a request
     const errors = validationResult(req);
 
+    // Log upload image info
+    console.log(req.file, req.body);
+
+    // Upload the image to Cloudinary
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = await uploadImageCloudinary(req.file.path);
+    }
+
     // Create Product object with escaped and trimmed data
     const product = new Product({
       name: req.body.name,
@@ -94,6 +132,7 @@ exports.product_create_post = [
       categories: req.body.category,
       price: req.body.price,
       quantity: req.body.quantity,
+      img_url: imageUrl,
     });
 
     if (!errors.isEmpty()) {
@@ -138,6 +177,7 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
 // Handler Product delete on POST
 exports.product_delete_post = asyncHandler(async (req, res, next) => {
   await Product.findByIdAndDelete(req.body.productId);
+  Product.img_url
   res.redirect("/catalog/products");
 });
 
@@ -175,6 +215,7 @@ exports.product_update_get = asyncHandler(async (req, res, next) => {
 
 // Handler Product update on POST
 exports.product_update_post = [
+  (uploadedImg = upload.single("productImg")),
   // Convert the category to an array
   (req, res, next) => {
     if (!Array.isArray(req.body.category)) {
@@ -205,6 +246,15 @@ exports.product_update_post = [
     // Extract the validation errors from a request
     const errors = validationResult(req);
 
+    // Log upload image info
+    console.log(req.file, req.body);
+
+    // Upload the image to Cloudinary
+    let imageUrl = "";
+    if (req.file) {
+      imageUrl = await uploadImageCloudinary(req.file.path);
+    }
+
     // Create the update object with escaped and trimmed data
     const updateProduct = {
       name: req.body.name,
@@ -212,6 +262,7 @@ exports.product_update_post = [
       categories: req.body.category,
       price: req.body.price,
       quantity: req.body.quantity,
+      img_url: imageUrl
     };
 
     if (!errors.isEmpty()) {

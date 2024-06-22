@@ -1,7 +1,7 @@
 <div class="container">
   <h1><%= title %></h1>
 
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label for="name">Name:</label>
       <input
@@ -75,6 +75,9 @@
         required
         value="<%= (typeof product === 'undefined' ? 0 : product.quantity) %>"
       />
+    </div>
+    <div class="form-group">
+      <input class="form-control-file" type="file" id="productImg" name="productImg">
     </div>
     <button class="btn btn-primary" type="submit">Submit</button>
     <a href="/catalog/products" class="btn btn-primary">Back</a>

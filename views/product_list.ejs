@@ -1,7 +1,5 @@
 <h1><%= title %></h1>
 
-<a href="/catalog/product/create" class="btn btn-primary">Add Product</a>
-
 <form method="GET" action="/catalog/products" class="form-inline my-2 my-lg-0">
   <input
     class="form-control mr-sm-2"
@@ -14,6 +12,8 @@
     Search
   </button>
 </form>
+
+<a href="/catalog/product/create" class="btn btn-primary">Add Product</a>
 
 <% if (product_list.length) { %>
 <ul>

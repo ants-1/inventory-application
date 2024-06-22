@@ -8,6 +8,7 @@ const ProductSchema = new Schema({
     categories: [{ type: Schema.Types.ObjectId, ref: "Category", required: true }],
     price: { type: Number, min: 0, required: true },
     quantity: { type: Number, min: 0, requried: true },
+    img_url: { type: String }
 });
 
 // Virtual for product's URL

@@ -1,5 +1,10 @@
 <h1><% title %></h1>
 
+<% if (product.img_url) { %>
+    <img src="<%= product.img_url %>" alt="<%= product.name %>">
+<% } else { %>
+    <div>No Image</div>
+<% } %>
 <p>Name: <%= product.name %></p>
 <p>Description: <%= product.description %></p>
 <p>Categories: 
